@@ -16,10 +16,10 @@
 from absl import logging
 import tensorflow as tf
 
-import utils
-from tf2 import anchors
-from object_detection import preprocessor
-from object_detection import tf_example_decoder
+from ..efficientdet import utils
+from .tf2 import anchors
+from .object_detection import preprocessor
+from .object_detection import tf_example_decoder
 
 
 class InputProcessor:

@@ -23,14 +23,14 @@ import numpy as np
 from PIL import Image
 import tensorflow.compat.v1 as tf
 
-import dataloader
-import det_model_fn
-import hparams_config
-import utils
-from tf2 import efficientdet_keras
-from tf2 import label_util
-from tf2 import postprocess
-from visualize import vis_utils
+from ..efficientdet import dataloader
+from ..efficientdet import det_model_fn
+from ..efficientdet import hparams_config
+from ..efficientdet import utils
+from .tf2 import efficientdet_keras
+from .tf2 import label_util
+from .tf2 import postprocess
+from .visualize import vis_utils
 from tensorflow.python.client import timeline  # pylint: disable=g-direct-tensorflow-import
 
 

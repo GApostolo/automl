@@ -15,7 +15,7 @@
 """A few predefined label id mapping."""
 import tensorflow as tf
 import yaml
-import hparams_config
+from .. import hparams_config
 
 coco = {
     # 0: 'background',

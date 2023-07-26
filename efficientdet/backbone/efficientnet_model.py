@@ -28,7 +28,7 @@ import numpy as np
 import six
 import tensorflow as tf
 
-import utils
+from .. import utils
 
 GlobalParams = collections.namedtuple('GlobalParams', [
     'batch_norm_momentum', 'batch_norm_epsilon', 'dropout_rate', 'data_format',

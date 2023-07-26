@@ -18,14 +18,14 @@ from absl import logging
 import numpy as np
 import tensorflow as tf
 
-import dataloader
-import hparams_config
-import utils
-from backbone import backbone_factory
-from backbone import efficientnet_builder
-from tf2 import fpn_configs
-from tf2 import postprocess
-from tf2 import util_keras
+from .. import dataloader
+from .. import hparams_config
+from .. import utils
+from ..backbone import backbone_factory
+from ..backbone import efficientnet_builder
+from . import fpn_configs
+from . import postprocess
+from . import util_keras
 
 
 def add_n(nodes):

@@ -25,9 +25,9 @@ import numpy as np
 from PIL import Image
 import tensorflow.compat.v1 as tf
 
-import hparams_config
-import inference
-import utils
+from . import hparams_config
+from . import inference
+from . import utils
 from tensorflow.python.client import timeline  # pylint: disable=g-direct-tensorflow-import
 
 flags.DEFINE_string('model_name', 'efficientdet-d0', 'Model.')
@@ -77,8 +77,6 @@ class ModelInspector(object):
 
   def __init__(self,
                model_name: Text,
-               logdir: Text,
-               tensorrt: Text = False,
                use_xla: bool = False,
                ckpt_path: Text = None,
                export_ckpt: Text = None,
@@ -88,8 +86,6 @@ class ModelInspector(object):
                hparams: Text = '',
                **kwargs):  # pytype: disable=annotation-type-mismatch
     self.model_name = model_name
-    self.logdir = logdir
-    self.tensorrt = tensorrt
     self.use_xla = use_xla
     self.ckpt_path = ckpt_path
     self.export_ckpt = export_ckpt

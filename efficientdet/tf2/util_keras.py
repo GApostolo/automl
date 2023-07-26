@@ -18,7 +18,7 @@ import collections
 from typing import Optional, Text
 from absl import logging
 import tensorflow as tf
-import utils
+from .. import utils
 
 # Prefix variable name mapping from tf2 model to the hub module checkpoint.
 HUB_CPT_NAME = collections.OrderedDict([('class_net/class-predict/', 'classes'),

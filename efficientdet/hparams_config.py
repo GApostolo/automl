@@ -196,7 +196,7 @@ def default_detection_configs():
 
   h.skip_crowd_during_training = True
   h.label_map = None  # a dict or a string of 'coco', 'voc', 'waymo'.
-  h.max_instances_per_image = 100  # Default to 100 for COCO.
+  h.max_instances_per_image = 1000  # Default to 100 for COCO.
   h.regenerate_source_id = False
 
   # model architecture

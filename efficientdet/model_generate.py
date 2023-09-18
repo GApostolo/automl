@@ -21,9 +21,8 @@ from absl import app
 from absl import logging
 
 from ..efficientdet import inference
-
 from ..efficientdet.model_inspect import ModelInspector
-
+from ..efficientdet.tf2 import infer_lib
 
 def load_model_from_frozen_file(model_name: str = 'efficientdet-d0',
                                 saved_model_dir: str = './model/automl/efficientdet/model_save',
@@ -32,9 +31,10 @@ def load_model_from_frozen_file(model_name: str = 'efficientdet-d0',
                                 finetune: bool = True):
     if finetune:
         model_dir = saved_model_dir + "/model_save/" + model_name + '-finetune' + "/" + model_name + "_frozen.pb"
+        hparams = saved_model_dir + hparams_file_name
     else:
-        model_dir = saved_model_dir + "/" + model_name + "/" + model_name + "_frozen.pb"
-    hparams = saved_model_dir + hparams_file_name
+        model_dir = saved_model_dir + "/model_save/" + model_name + "/" + model_name + "_frozen.pb"
+        hparams = ''
     model_config = ModelInspector(model_name=model_name, saved_model_dir=model_dir, batch_size=batch_size,
                                   score_thresh=min_score_thresh, max_output_size=max_boxes_to_draw,
                                   nms_method=nms_method, hparams=hparams)
@@ -56,9 +56,10 @@ def load_model_from_checkpoint_file(model_name: str = 'efficientdet-d0',
                                     finetune: bool = True):
     if finetune:
         model_dir = saved_model_dir + "/" + model_name + '-finetune'
+        hparams = saved_model_dir + hparams_file_name
     else:
         model_dir = saved_model_dir + "/" + model_name
-    hparams = saved_model_dir + hparams_file_name
+        hparams = ''
     model_config = ModelInspector(model_name=model_name, saved_model_dir=model_dir, batch_size=batch_size,
                                   score_thresh=min_score_thresh, max_output_size=max_boxes_to_draw, hparams=hparams,
                                   nms_method=nms_method)
@@ -71,4 +72,23 @@ def load_model_from_checkpoint_file(model_name: str = 'efficientdet-d0',
     driver.build()
     drive_end_time = time.perf_counter()
     print(f"Drive time (seconds): {drive_end_time - drive_start_time:.2f}")
+    return driver
+
+def load_tf2_model_from_frozen_file(model_name: str = 'efficientdet-d0',
+                                saved_model_dir: str = './model/automl/efficientdet/',
+                                min_score_thresh: int = 0.5, max_boxes_to_draw: int = 500, batch_size: int = 1,
+                                nms_method: str = 'hard', hparams_file_name: str = '/panda_config.yaml',
+                                finetune: bool = True):
+    if finetune:
+        model_dir = saved_model_dir + "/model_save_tf2/" + model_name + '-finetune' + "/" + model_name + "_frozen.pb"
+        hparams = saved_model_dir + hparams_file_name
+    else:
+        model_dir = saved_model_dir + "/model_save_tf2/" + model_name + "/" + model_name + "_frozen.pb"
+        hparams = ''
+    model_config = ModelInspector(model_name=model_name, saved_model_dir=model_dir, batch_size=batch_size,
+                                  score_thresh=min_score_thresh, max_output_size=max_boxes_to_draw,
+                                  nms_method=nms_method, hparams=hparams)
+
+    model_params = model_config.model_config.as_dict()
+    driver = infer_lib.ServingDriver.create('_', False, model_dir, model_name,batch_size, False, model_params)
     return driver

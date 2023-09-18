@@ -428,10 +428,14 @@ class ServingDriver(object):
 
   def __del__(self):
     if self.sess:
+      #print("Foo")
       self.sess.close()
+      tf.reset_default_graph()
 
   def _build_session(self):
     sess_config = tf.ConfigProto()
+    sess_config.gpu_options.allow_growth = True
+    print(sess_config)
     if self.use_xla:
       sess_config.graph_options.optimizer_options.global_jit_level = (
           tf.OptimizerOptions.ON_2)

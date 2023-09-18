@@ -22,14 +22,14 @@ from absl import logging
 import numpy as np
 import tensorflow as tf
 
-import dataloader
-import hparams_config
-import utils
-from tf2 import efficientdet_keras
-from tf2 import label_util
-from tf2 import util_keras
-from tf2 import postprocess
-from visualize import vis_utils
+from .. import dataloader
+from .. import hparams_config
+from .. import utils
+from . import efficientdet_keras
+from . import label_util
+from . import util_keras
+from . import postprocess
+from ..visualize import vis_utils
 
 DEFAULT_SCALE, DEFAULT_ZERO_POINT = 0, 0
 

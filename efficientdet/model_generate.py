@@ -69,12 +69,9 @@ def load_model_from_checkpoint_file(model_name: str = 'efficientdet-d0',
 def load_tf2_model_from_frozen_file(model_name: str = 'efficientdet-d0',
                                     saved_model_dir: str = './model/automl/efficientdet/',
                                     min_score_thresh: int = 0.5, max_boxes_to_draw: int = 500, batch_size: int = 1,
-                                    nms_method: str = 'hard', hparams_file_name: str = '/panda_config.yaml'):
+                                    nms_method: str = 'hard'):
     model_dir = saved_model_dir
-    if hparams_file_name is ".":
-        hparams = ""
-    else:
-        hparams = hparams_file_name
+    hparams = saved_model_dir + "\\config.yaml"
     model_config = ModelInspector(model_name=model_name, saved_model_dir=model_dir, batch_size=batch_size,
                                   score_thresh=min_score_thresh, max_output_size=max_boxes_to_draw,
                                   nms_method=nms_method, hparams=hparams)

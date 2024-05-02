@@ -13,12 +13,12 @@
 # limitations under the License.
 # ==============================================================================
 r"""Tool to inspect a model."""
-import pathlib
 import time
-from typing import Text, Tuple, List
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+import tensorflow as tf
+import logging
 
-from absl import app
-from absl import logging
 
 from ..efficientdet import inference
 from ..efficientdet.model_inspect import ModelInspector
@@ -75,6 +75,11 @@ def load_tf2_model_from_frozen_file(model_name: str = 'efficientdet-d0',
     model_config = ModelInspector(model_name=model_name, saved_model_dir=model_dir, batch_size=batch_size,
                                   score_thresh=min_score_thresh, max_output_size=max_boxes_to_draw,
                                   nms_method=nms_method, hparams=hparams)
+    logger = tf.get_logger()
+    logger.setLevel(logging.FATAL)
+
+    real_absl_logger = logging.getLogger("absl")
+    real_absl_logger.setLevel(logging.FATAL)
 
     model_params = model_config.model_config.as_dict()
     driver = infer_lib.ServingDriver.create('_', False, model_dir, model_name, batch_size, False, model_params)
